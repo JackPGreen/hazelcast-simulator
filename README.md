@@ -104,7 +104,7 @@ Also contains pointers where to go next.
 
 ## Creating a benchmark
 
-The first step is to create a benchmark, which can be done using the perftest tool.
+The first step is to create a benchmark, which can be done using the `perftest` tool.
 
    ```
    perftest create myproject
@@ -124,15 +124,15 @@ And a benchmark using a specific benchmark can be created using
    perftest create --template <templatename> myproject
    ```
 
-In the future more templates will be added.
+In the future, more templates will be added.
 
 ## Provisioning the environment
 
 Simulator makes use of Terraform for provisioning. After you have created a benchmark using the 
 `benchmark create` command, you want to edit the inventory_plan.yaml. This is where you can configure the
-type of instances, the number etc.
+type of instances, the number, etc.
 
-To apply the configuration on the existing environment, execute the following command:
+To apply the configuration to the existing environment, execute the following command:
     ```
     inventory apply
     ```
@@ -208,7 +208,7 @@ The quickstart was to just get you up and running. In order to do some real perf
 
 * [Define test scenario](#define-test-scenario) - specify how many puts/gets to use, how many entries to preload, how big the values should be, latency vs. throughput test etc.
 * [Configure cluster](#controlling-the-cluster-layout) - Hazelcast version, configuration of Hazelcast itself, number of members and clients, number of threads per client, GC options etc.
-* [Run the test](#run-the-test) - set test duration, select which test scenario to be run etc.
+* [Run the test](#run-the-test) - set test duration, select which test scenario to be run, etc.
 * [Setup the testing environment](#set-up-cluster-environment) - run it on on-premise machines, in AWS, configuring for running clusters in OpenShift, Kubernetes etc.
 * [Create better charts](#report-generation) - create charts with multiple runs being compared, adjust warmup and cooldown periods, adjust legents etc.
 
@@ -247,7 +247,7 @@ running the `TestSuite` using the `Agents` and `Workers`. You configure it with 
 executing a command like "run this testsuite with 10 member worker and 100 client worker JVMs for 2 hours".
 
 - **Coordinator Machine** - a machine on which you execute the `Coordinator` (see above). This is the place typically where the user interacts
-with Simulator commands. Typically your local computer but can be installed anywhere.
+with Simulator commands. Typically, your local computer but can be installed anywhere.
 
 - **Coordinator Remote** - A JVM that can run anywhere, such as on your local machine. The `CoordinatorRemote` is responsible for
  sending instructions to the Coordinator. For basic simulator usages the remote is not needed, but for complex scenarios such 
@@ -346,7 +346,7 @@ The above properties result in 10 % PUT operations, 20 % SET operations, and (`1
 ### Configuring parameters
 
 All the other properties are values passed directly to the test class and are usually used for adjusting 
-parameters of the test such as number of entries being preloaded in the Map, size of the value etc. Each test class
+parameters of the test, such as the number of entries being preloaded in the Map, size of the value etc. Each test class
 has its own set of options, so you have to look at the source code of the test class for the available parameters 
 and their meaning.
 
@@ -385,11 +385,11 @@ maxSize = 10000
 > * **Throughput test** - stress out the system as much as possible and get as many operations per second as possible.
 > * **Latency test** - measure operation latencies while doing _a fixed number of operations per second_. 
 
-By default the timestep-threads operate in throughput testing mode - they will loop over the timestep methods as fast as they can. 
-As a bonus you get an impression of the latency for that throughput. 
-However, for a proper latency test, you want to control the rate and measure the latency for that rate. Luckily this is very easy with the Simulator.
+By default, the timestep-threads operate in throughput testing mode - they will loop over the timestep methods as fast as they can. 
+As a bonus, you get an impression of the latency for that throughput. 
+However, for a proper latency test, you want to control the rate and measure the latency for that rate. Luckily, this is very easy with the Simulator.
 
-You can configure the fixed number of operations per second using following properties in `test.properties`:
+You can configure the fixed number of operations per second using the following properties in `test.properties`:
 
 * `ratePerSecond=<X>` - where `<X>` is a desired number of operations per second per **load generating client/member** (not worker thread!). 
 Example: if in your test, you configure 5 clients and you want to stress the cluster with 500 000 operations per second, 
@@ -452,8 +452,8 @@ there are 3 IP addresses specified in the `agents.txt` like this:
 
 #### Default distribution algorithm
 
-The Workers will be distributed among the available remote machines with a round robin selection. First the members are distributed in the round robin
-fassion (going through the IP addresses from the top to the bottom). Once there are no more members to be distributed, Simulator
+The Workers will be distributed among the available remote machines with a round-robin selection. The First the members are distributed in the round-robin
+ fashion (going through the IP addresses from the top to the bottom). Once there are no more members to be distributed, Simulator
 continues (= **not** starting from the first IP address but continuing with the next one) with distribution of the clients. By default, the machines will 
 be mixed with member and client Workers. Let's see a couple of examples.
 
@@ -473,8 +473,8 @@ You can reserve machines for members only (which is a Hazelcast recommended setu
 coordinator --dedicatedMemberMachines 2
 ```
 
-The algorithm that takes the first 2 IP addresses and distributes the members only across them in a round robin fashion.
-Then takes the rest of the IP addresses and distributes the clients across them, again in the round robin fashion. 
+The algorithm that takes the first 2 IP addresses and distributes the members only across them in a round-robin fashion.
+Then takes the rest of the IP addresses and distributes the clients across them, again in the round-robin fashion. 
 Continuing our [example](#control-distribution-of-workers-over-machines):
 
 | Coordinator arguments | Cluster layout |
@@ -493,12 +493,12 @@ layout, versions of clients, servers, etc. Refer to the [Fine-grained control wi
 The order of the IP addresses matters. Simulator goes from the top to the bottom and applies the algorithm described above
 deterministically and always the same way.
 
-That allows you to fine tune the configuration of the environment. Imagine a typical usecase where you want to run
+That allows you to fine-tune the configuration of the environment. Imagine a typical usecase where you want to run
 the members on more powerful machines (e.g. more CPUs, more memory) and use lighter and cheaper (e.g. in the cloud) machines
 for the clients.
 
 Example: Suppose you have available 3 "big" machines `10.0.0.3-10.0.0.5` that you want use for 6 members, two members per
-machine and you have 4 "light" machines `10.0.1.1-10.0.1.4` that you want to use for 8 clients. Following command
+machine and you have 4 "light" machines `10.0.1.1-10.0.1.4` that you want to use for 8 clients. The following command
  and `agents.txt` file achieves this setup:
 
 ```
@@ -522,7 +522,7 @@ $ cat agents.txt
 
 ### Running tests against an already running cluster
 
-There are cases where you already have a running cluster and you want to execute performance test against it.
+There are cases where you already have a running cluster and you want to execute performance tests against it.
 In other words, you don't want the Simulator to manage your members but only orchestrate the clients. 
 In order to do this, you have to:
 
@@ -556,7 +556,7 @@ in `client-hazelcast.xml`.
 ## Controlling the Hazelcast Configuration
 
 You can specify Hazelcast configuration by placing a `hazelcast.xml` (member configuration) or `client-hazelcast.xml` (client configuration) in your working directory
-(the one from which you're executing the `run` script or `coordinator` command). Simulator will handle the upload of them and makes sure that the
+(the one from which you're executing the `run` script or `coordinator` command). Simulator will handle the upload of them and ensure that the
 workers are started with them transparently.
 
 If there's no `hazelcast.xml` or `client-hazelcast.xml` in the working directory, Coordinator uses the default files `${SIMULATOR_HOME}/conf/hazelcast.xml` and `${SIMULATOR_HOME}/conf/client-hazelcast.xml`.
@@ -692,7 +692,7 @@ This is only necessary if the JAR files have been changed. Configuration changes
 
 # Report generation
 
-Once a benchmark has been executed, a HTML report can be generated using the `perftest report` tool. This tool requires
+Once a benchmark has been executed, an HTML report can be generated using the `perftest report` tool. This tool requires
 Gnuplot 4+ and Python 3.x to be installed for generating the diagrams.
 
 ## Basics
@@ -719,7 +719,7 @@ You can create a single report plotting those two benchmarks in the same chart a
 perftest report -o my-comparison-report 2021-05-31__23_19_13 2021-05-31__23_35_40
 ```
 
-By default the `perftest run` creates a directory for each run inside
+By default, the `perftest run` creates a directory for each run inside
 `runs/BenchmarkName` with timestamp as the directory name. To automate comparisons of last runs of some benchmarks,
 you can simply run the `perftest report` with `-l` flag (or `--last`):
 
@@ -875,7 +875,7 @@ If a property is not used in a test, the test fails during its startup. The reas
 ### ThreadState
 
 A Simulator test instance is shared between all timestep-threads for that test and only on the test instance level where there
- was a state. But in some cases you want to track the state for each timestep-thread. Of course a thread-local variable can be used 
+ was a state. But in some cases, you want to track the state for each timestep-thread. Of course a thread-local variable can be used 
  for this, but the Simulator has a more practical and faster mechanism, `ThreadState`.
 
 In the following code example, a `ThreadState` is defined that tracks the number of increments per thread:
@@ -1342,7 +1342,7 @@ metronomeClass=com.hazelcast.simulator.worker.metronome.ConstantCombinedRateMetr
 ```
 
 ## Measuring Jitter
-To measure jitter caused by the OS/JVM it is possible to activate a Jitter thread using:
+To measure jitter caused by the OS/ JVM, it is possible to activate a Jitter thread using:
 ```
 class=example.MyTest
 threadCount=10
@@ -1352,7 +1352,7 @@ recordJitter=true
 This thread will do nothing else besides measuring time and recording it in a probe. The content of this probe results in hdr files
 and can be visualized using the [benchmark report generator](#report-generator).
 
-By default jitter greater or equal to 1000ns is recorded, but can be configured using the `recordJitterThresholdNs` property:
+By default, jitter greater or equal to 1000ns is recorded, but can be configured using the `recordJitterThresholdNs` property:
 ```
 class=example.MyTest
 threadCount=10
@@ -1369,9 +1369,9 @@ parallel with this feature enabled.
 
 ## Controlling the load generation
 
-Besides the cluster layout you can also control which Workers will execute their RUN phase (= the actual test). 
+Besides the cluster layout, you can also control which Workers will execute their RUN phase (= the actual test). 
 The default is that client Workers are preferred over member Workers. That means if client Workers are used, they will create the load in the cluster, 
-otherwise the member Workers will be used. In addition you can limit the number of Workers which will generate the load.
+otherwise the member Workers will be used. In addition, you can limit the number of Workers which will generate the load.
 
 ```
 coordinator --targetType member --targetCount 2
